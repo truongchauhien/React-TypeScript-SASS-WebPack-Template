@@ -1,11 +1,37 @@
 import webpack from 'webpack';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import convict from 'convict';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV == 'production';
 
-const config = {
+const configs = convict({
+    env: {
+        default: 'development',
+        env: 'NODE_ENV'
+    },
+    api: {
+        https: {
+            default: false
+        },
+        host: {
+            default: 'localhost'
+        },
+        port: {
+            default: 3000
+        }   
+    }
+});
+
+const env = configs.get('env');
+configs.loadFile(`./configs.${env}.json`);
+configs.validate({ allowed: 'strict' });
+
+const webpackConfigs = {
     entry: './src/index.ts',
     module: {
         rules: [
@@ -53,7 +79,12 @@ const config = {
         filename: 'bundle.js'
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            'USE_HTTPS': JSON.stringify(configs.get('api.https')),
+            'API_HOST': JSON.stringify(configs.get('api.host')),
+            'API_PORT': JSON.stringify(configs.get('api.port'))
+        })
     ],
     devServer: {
         hot: true,
@@ -62,9 +93,9 @@ const config = {
 }
 
 if (isProduction) {
-    config.mode = 'production';
+    webpackConfigs.mode = 'production';
 } else {
-    config.mode = 'development';
+    webpackConfigs.mode = 'development';
 }
 
-export default config;
+export default webpackConfigs;

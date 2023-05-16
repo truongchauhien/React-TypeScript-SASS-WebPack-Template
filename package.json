@@ -13,7 +13,9 @@
   "devDependencies": {
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
+    "convict": "^6.2.4",
     "css-loader": "^6.7.3",
+    "dotenv": "^16.0.3",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
