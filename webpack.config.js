@@ -88,7 +88,8 @@ const webpackConfigs = {
     ],
     devServer: {
         hot: true,
-        host: 'localhost'
+        host: 'localhost',
+        historyApiFallback: true
     }
 }
 
