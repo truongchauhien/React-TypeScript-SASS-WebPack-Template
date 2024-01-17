@@ -2,8 +2,8 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "module": "ES6",
-    "target": "ES6",
+    "module": "ESNext",
+    "target": "ESNext",
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "Bundler"
@@ -13,6 +13,7 @@
     "node_modules"
   ],
   "include": [
-    "global.d.ts"
+    "global.d.ts",
+    "src"
   ]
 }
