@@ -1,4 +1,4 @@
-const buildQueryString = (params) => {
+const buildQueryString = (params: any) => {
     if (!params) {
         return new URLSearchParams();
     }
